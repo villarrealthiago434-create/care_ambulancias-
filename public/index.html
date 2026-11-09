@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CARE | Portal Institucional y Gestión de Ambulancias</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+
+    nav { background: #0f172a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    nav .brand { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    nav button { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+    nav button:hover { background: var(--primary-dark); }
+
+    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+
+    .card { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
+    .card h2 { margin-top: 0; font-size: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; color: #1e293b; }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
+    .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; }
+    .form-control:focus { border-color: var(--primary); }
+
+    .checkbox-group { display: flex; gap: 20px; margin-top: 10px; }
+    .checkbox-group label { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+
+    .btn-submit { background: var(--success); color: white; border: none; padding: 14px 24px; border-radius: 6px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; transition: background 0.2s; }
+    .btn-submit:hover { background: #059669; }
+
+    .btn-small { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; }
+    .btn-small:hover { background: var(--primary-dark); }
+
+    table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 10px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    th { background: #f1f5f9; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+
+    .alert { padding: 15px; border-radius: 6px; margin-bottom: 20px; font-weight: 600; text-align: center; display: none; }
+    .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+
+    #loginModal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 100; }
+    .login-box { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 380px; text-align: center; }
+
+    video { width: 100%; border-radius: 8px; background: #000; height: 130px; object-fit: cover; }
+    .contact-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #25d366; color: white; text-decoration: none; border-radius: 4px; font-size: 11px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="brand">🚑 CARE | Servicio de Emergencias y Traslados</div>
+    <div>
+      <button id="btnNavAuth" onclick="toggleAuthView()">Acceso Médico Director</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- VISTA PÚBLICA -->
+    <div id="publicView">
+      <div class="card">
+        <h2>📋 Solicitud de Traslado de Pacientes (Público / Clínicas)</h2>
+        <p style="color: var(--muted); font-size: 14px; margin-bottom: 25px;">
+          Complete el formulario con los datos del paciente y la institución de origen/destino. La Central de Operaciones procesará el pedido de inmediato.
+        </p>
+
+        <div id="msgExito" class="alert alert-success">
+          ✅ ¡Solicitud enviada con éxito! La Central Médica se encuentra procesando la unidad asignada.
+        </div>
+
+        <form id="publicForm" onsubmit="enviarSolicitudPública(event)">
+          <h3 style="font-size: 15px; color: var(--primary);">1. Datos de la Institución Solicitante</h3>
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Institución / Clínica Solicitante *</label>
+              <input type="text" id="sol_inst" class="form-control" placeholder="Ej: Sanatorio Allende" required>
+            </div>
+            <div class="form-group">
+              <label>Médico Solicitante / Cargo *</label>
+              <input type="text" id="sol_medico" class="form-control" placeholder="Ej: Dr. Roberto Gómez" required>
+            </div>
+            <div class="form-group">
+              <label>Teléfono Directo de Contacto *</label>
+              <input type="tel" id="sol_tel" class="form-control" placeholder="Ej: 3514001234" required>
+            </div>
+          </div>
+
+          <h3 style="font-size: 15px; color: var(--primary); margin-top: 20px;">2. Datos del Paciente y Diagnóstico</h3>
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Nombre Completo del Paciente *</label>
+              <input type="text" id="pac_nombre" class="form-control" placeholder="Ej: María Eugenia López" required>
+            </div>
+            <div class="form-group">
+              <label>DNI *</label>
+              <input type="text" id="pac_dni" class="form-control" placeholder="Ej: 30123456" required>
+            </div>
+            <div class="form-group">
+              <label>Edad</label>
+              <input type="number" id="pac_edad" class="form-control" placeholder="Ej: 54">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Diagnóstico / Cuadro Clínico de Origen *</label>
+            <input type="text" id="pac_diag" class="form-control" placeholder="Ej: Síndrome Coronario Agudo" required>
+          </div>
+
+          <h3 style="font-size: 15px; color: var(--primary); margin-top: 20px;">3. Traza de Origen, Destino y Complejidad</h3>
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Dirección u Hospital de Origen *</label>
+              <input type="text" id="traza_origen" class="form-control" placeholder="Ej: Av. Colón 1200" required>
+            </div>
+            <div class="form-group">
+              <label>Dirección u Hospital de Destino *</label>
+              <input type="text" id="traza_destino" class="form-control" placeholder="Ej: Hospital de Clínicas" required>
+            </div>
+            <div class="form-group">
+              <label>Tipo de Complejidad *</label>
+              <select id="traza_complejidad" class="form-control" required>
+                <option value="Baja (Traslado Común)">Baja (Traslado Común)</option>
+                <option value="Media (Monitoreo Continuo)">Media (Monitoreo Continuo)</option>
+                <option value="Alta (UTI Móvil / Terapia Intensiva)">Alta (UTI Móvil / Terapia Intensiva)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Requerimientos Especiales de Equipamiento</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" id="req_oxigeno"> Requiere Oxígeno Medicinal</label>
+              <label><input type="checkbox" id="req_respirador"> Requiere Respirador Artificial / ARM</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Observaciones Adicionales</label>
+            <textarea id="pac_obs" class="form-control" rows="2" placeholder="Indicaciones médicas..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">🚑 Solicitar Ambulancia de Inmediato</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- VISTA PRIVADA DIRECTOR -->
+    <div id="adminView" style="display: none;">
+      <div class="card">
+        <h2>🚑 Flota, Camas, Cámaras y Asignación de Tripulación</h2>
+        <div class="grid-3" id="fleetCardsContainer"></div>
+      </div>
+
+      <div class="card">
+        <h2>📋 Solicitudes Recibidas de Clínicas y Sanatorios</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Solicitante / Contacto</th>
+              <th>Paciente (DNI)</th>
+              <th>Diagnóstico / Complejidad</th>
+              <th>Origen ➔ Destino</th>
+              <th>Estado</th>
+              <th>Despachar Ambulancia</th>
+            </tr>
+          </thead>
+          <tbody id="adminSolicitudesBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL LOGIN -->
+  <div id="loginModal">
+    <div class="login-box">
+      <h2 style="margin-top:0;">🔒 Acceso Director / Médico</h2>
+      <div class="form-group">
+        <input type="text" id="userAdmin" class="form-control" value="admin" placeholder="Usuario">
+      </div>
+      <div class="form-group">
+        <input type="password" id="passAdmin" class="form-control" value="admin123" placeholder="Contraseña">
+      </div>
+      <button class="btn-submit" onclick="loginAdmin()">Ingresar al Panel</button>
+      <button style="background:transparent; border:none; color:var(--muted); margin-top:10px; cursor:pointer;" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+
+    async function enviarSolicitudPública(e) {
+      e.preventDefault();
+      const payload = {
+        institucion_solicitante: document.getElementById('sol_inst').value,
+        medico_solicitante: document.getElementById('sol_medico').value,
+        telefono_contacto: document.getElementById('sol_tel').value,
+        paciente_nombre: document.getElementById('pac_nombre').value,
+        dni: document.getElementById('pac_dni').value,
+        edad: document.getElementById('pac_edad').value,
+        diagnostico: document.getElementById('pac_diag').value,
+        origen: document.getElementById('traza_origen').value,
+        destino: document.getElementById('traza_destino').value,
+        tipo_complejidad: document.getElementById('traza_complejidad').value,
+        requiere_oxigeno: document.getElementById('req_oxigeno').checked,
+        requiere_respirador: document.getElementById('req_respirador').checked,
+        observaciones: document.getElementById('pac_obs').value
+      };
+
+      const res = await fetch(`${API}/public/solicitud`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        document.getElementById('msgExito').style.display = 'block';
+        document.getElementById('publicForm').reset();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => document.getElementById('msgExito').style.display = 'none', 6000);
+      }
+    }
+
+    function toggleAuthView() {
+      const token = localStorage.getItem('amb_admin_token');
+      if (token) {
+        localStorage.removeItem('amb_admin_token');
+        location.reload();
+      } else {
+        document.getElementById('loginModal').style.display = 'flex';
+      }
+    }
+
+    function cerrarModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    async function loginAdmin() {
+      const username = document.getElementById('userAdmin').value;
+      const password = document.getElementById('passAdmin').value;
+
+      const res = await fetch(`${API}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('amb_admin_token', data.token);
+        cerrarModal();
+        cargarPanelAdmin();
+      } else {
+        alert(data.error);
+      }
+    }
+
+    async function cargarPanelAdmin() {
+      document.getElementById('publicView').style.display = 'none';
+      document.getElementById('adminView').style.display = 'block';
+      document.getElementById('btnNavAuth').textContent = 'Cerrar Sesión Director';
+
+      const token = localStorage.getItem('amb_admin_token');
+
+      const resFleet = await fetch(`${API}/admin/fleet`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const fleet = await resFleet.json();
+
+      document.getElementById('fleetCardsContainer').innerHTML = fleet.map(u => `
+        <div style="border:1px solid var(--border); padding:15px; border-radius:8px; background:#fafafa;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <b style="font-size:16px;">${u.unit_code}</b>
+            <span class="badge ${u.status === 'Disponible' ? 'badge-success' : 'badge-warning'}">${u.status}</span>
+          </div>
+          <p style="font-size:12px; margin:4px 0;"><b>Ubicación:</b> ${u.location}</p>
+          <div style="background:#fff; border:1px solid #e2e8f0; padding:6px; border-radius:6px; font-size:11px; margin-bottom:8px;">
+            🛏️ <b>Cama:</b> ${u.has_bed ? '<span style="color:green;">DISPONIBLE</span>' : '<span style="color:red;">OCUPADA</span>'} (${u.bed_type})
+          </div>
+
+          <!-- ASIGNACIÓN DINÁMICA DE TRIPULACIÓN -->
+          <div style="background:#f1f5f9; padding:8px; border-radius:6px; margin-bottom:8px;">
+            <small style="font-weight:bold; color:var(--primary);">👥 Asignar Tripulación:</small>
+            <div class="form-group" style="margin-top:6px;">
+              <input type="text" id="driver_${u.unit_code}" class="form-control" placeholder="Nombre Chofer" value="${u.driver || ''}">
+            </div>
+            <div class="form-group">
+              <input type="text" id="dphone_${u.unit_code}" class="form-control" placeholder="Teléfono Chofer (Ej: 549353...)" value="${u.driver_phone || ''}">
+            </div>
+            <div class="form-group">
+              <input type="text" id="medic_${u.unit_code}" class="form-control" placeholder="Nombre Médico / Paramédico" value="${u.paramedic || ''}">
+            </div>
+            <div class="form-group">
+              <input type="text" id="mphone_${u.unit_code}" class="form-control" placeholder="Teléfono Médico (Ej: 549353...)" value="${u.paramedic_phone || ''}">
+            </div>
+            <button class="btn-small" onclick="guardarTripulacion('${u.unit_code}')">💾 Guardar Tripulación</button>
+            
+            ${u.driver_phone || u.paramedic_phone ? `
+              <div style="margin-top:6px; display:flex; gap:6px;">
+                ${u.driver_phone ? `<a class="contact-btn" href="https://wa.me/${u.driver_phone}" target="_blank">💬 WSp Chofer</a>` : ''}
+                ${u.paramedic_phone ? `<a class="contact-btn" href="https://wa.me/${u.paramedic_phone}" target="_blank">💬 WSp Médico</a>` : ''}
+              </div>
+            ` : ''}
+          </div>
+
+          <div>
+            <small><b>Cámara en Vivo (MDVR):</b></small>
+            <video src="${u.stream_url}" controls autoplay loop muted></video>
+          </div>
+          <button style="margin-top:8px; width:100%; font-size:11px; cursor:pointer; padding:6px;" onclick="downloadPDF('${u.unit_code}')">📄 Descargar Informe PDF</button>
+        </div>
+      `).join('');
+
+      const resSol = await fetch(`${API}/admin/solicitudes`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const solicitudes = await resSol.json();
+
+      document.getElementById('adminSolicitudesBody').innerHTML = solicitudes.map(s => `
+        <tr>
+          <td>#${s.id}</td>
+          <td><b>${s.institucion_solicitante}</b><br><small>${s.medico_solicitante} (${s.telefono_contacto})</small></td>
+          <td><b>${s.paciente_nombre}</b><br><small>DNI: ${s.dni}</small></td>
+          <td>${s.diagnostico}<br><span class="badge badge-warning">${s.tipo_complejidad}</span></td>
+          <td>${s.origen} ➔ <br><b>${s.destino}</b></td>
+          <td><span class="badge ${s.estado === 'Pendiente' ? 'badge-danger' : 'badge-success'}">${s.estado}</span> ${s.ambulancia_asignada ? `(${s.ambulancia_asignada})` : ''}</td>
+          <td>
+            ${s.estado === 'Pendiente' ? `
+              <select class="form-control" style="font-size:12px; padding:4px;" onchange="despacharUnidad(${s.id}, this.value)">
+                <option value="">Seleccionar Ambulancia...</option>
+                <option value="AMB-01">AMB-01</option>
+                <option value="AMB-02">AMB-02</option>
+                <option value="AMB-03">AMB-03</option>
+              </select>
+            ` : 'Despachado'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function guardarTripulacion(unitCode) {
+      const driver = document.getElementById(`driver_${unitCode}`).value;
+      const driver_phone = document.getElementById(`dphone_${unitCode}`).value;
+      const paramedic = document.getElementById(`medic_${unitCode}`).value;
+      const paramedic_phone = document.getElementById(`mphone_${unitCode}`).value;
+
+      const token = localStorage.getItem('amb_admin_token');
+      const res = await fetch(`${API}/admin/fleet/${unitCode}/crew`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ driver, driver_phone, paramedic, paramedic_phone })
+      });
+
+      if (res.ok) {
+        alert('¡Tripulación actualizada con éxito!');
+        cargarPanelAdmin();
+      }
+    }
+
+    async function despacharUnidad(id, ambulancia) {
+      if (!ambulancia) return;
+      const token = localStorage.getItem('amb_admin_token');
+      const res = await fetch(`${API}/admin/solicitudes/${id}/asignar`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ ambulancia })
+      });
+      if (res.ok) cargarPanelAdmin();
+    }
+
+    async function downloadPDF(unitCode) {
+      const token = localStorage.getItem('amb_admin_token');
+      const response = await fetch(`${API}/reports/pdf/${unitCode}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!response.ok) return alert('Error al generar PDF');
+      const blob = await response.blob();
+      window.open(window.URL.createObjectURL(blob), '_blank');
+    }
+
+    if (localStorage.getItem('amb_admin_token')) {
+      cargarPanelAdmin();
+    }
+  </script>
+</body>
+</html>
