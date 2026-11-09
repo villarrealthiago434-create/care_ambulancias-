@@ -7,27 +7,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public'));
-// -----------------------------------------
-// Aquí abajo van tus rutas (app.get, app.post, etc.)
-// -----------------------------------------
-
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const sqlite3 = require('sqlite3').verbose();
-const PDFDocument = require('pdfkit');
-const path = require('path');
-const cors = require('cors');
-
-const app = express();
-const PORT = process.env.PORT || 3000;
 const SECRET_KEY = 'clave_secreta_super_segura_ambulancias';
 
 app.use(cors());
@@ -230,6 +210,7 @@ app.get('/api/reports/pdf/:unitCode', verifyToken, (req, res) => {
   });
 });
 
+// Único punto de inicio del servidor al final del archivo
 app.listen(PORT, () => {
-  console.log(`Servidor de Ambulancias corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor de Ambulancias corriendo en el puerto ${PORT}`);
 });
