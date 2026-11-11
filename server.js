@@ -8,24 +8,20 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos
-app.use(express.static(path.join(__dirname)));
+// Servir archivos estáticos desde la raíz
 app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname)));
 
-// Ruta principal con depuración detallada
+// Ruta principal para servir index.html
 app.get('/', (req, res) => {
     const filePath = path.join(__dirname, 'index.html');
-    
-    console.log(`[CARE DEBUG] Intentando servir: ${filePath}`);
-    console.log(`[CARE DEBUG] ¿Existe el archivo?: ${fs.existsSync(filePath)}`);
     
     if (fs.existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
-        // Listar archivos del directorio actual para depurar en los logs de Render
         fs.readdir(__dirname, (err, files) => {
             console.error(`[CARE ERROR] Archivos en __dirname (${__dirname}):`, files);
-            res.status(404).send(`Error 404: No se encontró el archivo index.html. Directorio actual contiene: ${files ? files.join(', ') : 'error al leer'}`);
+            res.status(404).send(`Error 404: No se encontró el archivo index.html en el servidor. Archivos disponibles: ${files ? files.join(', ') : 'ninguno'}`);
         });
     }
 });
