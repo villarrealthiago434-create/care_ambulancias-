@@ -1,407 +1,1239 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CARE | Portal Institucional y Gestión de Ambulancias</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --success: #10b981;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-    }
-
-    * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
-
-    nav { background: #0f172a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-    nav .brand { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
-    nav button { background: var(--primary); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-    nav button:hover { background: var(--primary-dark); }
-
-    .container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-
-    .card { background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 25px; }
-    .card h2 { margin-top: 0; font-size: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; color: #1e293b; }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-    @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--muted); }
-    .form-control { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none; }
-    .form-control:focus { border-color: var(--primary); }
-
-    .checkbox-group { display: flex; gap: 20px; margin-top: 10px; }
-    .checkbox-group label { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
-
-    .btn-submit { background: var(--success); color: white; border: none; padding: 14px 24px; border-radius: 6px; font-size: 16px; font-weight: 700; width: 100%; cursor: pointer; transition: background 0.2s; }
-    .btn-submit:hover { background: #059669; }
-
-    .btn-small { background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 8px; }
-    .btn-small:hover { background: var(--primary-dark); }
-
-    table { width: 100%; border-collapse: collapse; text-align: left; margin-top: 10px; }
-    th, td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
-    th { background: #f1f5f9; color: var(--muted); font-size: 12px; text-transform: uppercase; }
-
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
-    .badge-success { background: #d1fae5; color: #065f46; }
-    .badge-warning { background: #fef3c7; color: #92400e; }
-    .badge-danger { background: #fee2e2; color: #991b1b; }
-
-    .alert { padding: 15px; border-radius: 6px; margin-bottom: 20px; font-weight: 600; text-align: center; display: none; }
-    .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #34d399; }
-
-    #loginModal { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 100; }
-    .login-box { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 380px; text-align: center; }
-
-    video { width: 100%; border-radius: 8px; background: #000; height: 130px; object-fit: cover; }
-    .contact-btn { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; background: #25d366; color: white; text-decoration: none; border-radius: 4px; font-size: 11px; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARE | Sistema Integral de Traslados Médicos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            800: '#0c4a6e',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white; color: black; }
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased">
 
-  <nav>
-    <div class="brand">🚑 CARE | Servicio de Emergencias y Traslados</div>
-    <div>
-      <button id="btnNavAuth" onclick="toggleAuthView()">Acceso Médico Director</button>
-    </div>
-  </nav>
+    <!-- Header Principal -->
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-40 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="bg-gradient-to-tr from-sky-500 to-blue-600 p-2.5 rounded-xl text-white shadow-lg shadow-sky-500/20 flex items-center justify-center">
+                        <i class="fa-solid font-bold fa-truck-medical text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-xl tracking-tight text-white">CARE</span>
+                            <span class="bg-sky-500/20 text-sky-400 text-xs px-2 py-0.5 rounded font-mono font-medium border border-sky-500/30">PRO v2.5</span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-medium">Gestión Integral de Traslados Médicos</p>
+                    </div>
+                </div>
 
-  <div class="container">
+                <!-- Nav Tabs -->
+                <nav class="flex space-x-1 sm:space-x-2 bg-slate-800/80 p-1 rounded-xl border border-slate-700/60">
+                    <button id="tab-solicitud-btn" onclick="switchTab('solicitud')" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-sky-600 text-white shadow-sm">
+                        <i class="fa-solid fa-file-medical"></i>
+                        <span>Nueva Solicitud</span>
+                    </button>
+                    <button id="tab-admin-btn" onclick="switchTab('admin')" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 relative">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Panel Central Admin</span>
+                        <span id="lock-icon-badge" class="ml-1 text-xs text-amber-400"><i class="fa-solid fa-lock"></i></span>
+                    </button>
+                    <button id="tab-vigilancia-btn" onclick="switchTab('vigilancia')" class="flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all duration-200 relative">
+                        <i class="fa-solid fa-video text-rose-400"></i>
+                        <span>Vigilancia & Cámaras</span>
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                    </button>
+                </nav>
 
-    <!-- VISTA PÚBLICA -->
-    <div id="publicView">
-      <div class="card">
-        <h2>📋 Solicitud de Traslado de Pacientes (Público / Clínicas)</h2>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 25px;">
-          Complete el formulario con los datos del paciente y la institución de origen/destino. La Central de Operaciones procesará el pedido de inmediato.
-        </p>
+                <!-- Status & Quick Backup -->
+                <div class="hidden lg:flex items-center space-x-3 text-xs">
+                    <div class="flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                        <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                        <span class="text-slate-300 font-medium">Sistema Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-        <div id="msgExito" class="alert alert-success">
-          ✅ ¡Solicitud enviada con éxito! La Central Médica se encuentra procesando la unidad asignada.
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ALERTA GLOBAL DE NOTIFICACIÓN -->
+        <div id="toast-notification" class="fixed bottom-5 right-5 z-50 transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none">
+            <div id="toast-content" class="flex items-center space-x-3 bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl border border-slate-700">
+                <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                <span id="toast-message" class="text-sm font-medium">Notificación del sistema</span>
+            </div>
         </div>
 
-        <form id="publicForm" onsubmit="enviarSolicitudPública(event)">
-          <h3 style="font-size: 15px; color: var(--primary);">1. Datos de la Institución Solicitante</h3>
-          <div class="grid-3">
-            <div class="form-group">
-              <label>Institución / Clínica Solicitante *</label>
-              <input type="text" id="sol_inst" class="form-control" placeholder="Ej: Sanatorio Allende" required>
-            </div>
-            <div class="form-group">
-              <label>Médico Solicitante / Cargo *</label>
-              <input type="text" id="sol_medico" class="form-control" placeholder="Ej: Dr. Roberto Gómez" required>
-            </div>
-            <div class="form-group">
-              <label>Teléfono Directo de Contacto *</label>
-              <input type="tel" id="sol_tel" class="form-control" placeholder="Ej: 3514001234" required>
-            </div>
-          </div>
+        <!-- TAB 1: FORMULARIO DE SOLICITUD DE TRASLADO -->
+        <section id="tab-solicitud" class="space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-brand-800 px-6 py-5 text-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-xl font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-list text-sky-400"></i>
+                            Solicitud Oficial de Traslado Sanitario
+                        </h1>
+                        <p class="text-slate-300 text-xs mt-1">Complete todos los requerimientos médicos y logísticos para la asignación de ambulancia.</p>
+                    </div>
+                    <div class="bg-slate-800/90 border border-slate-700 px-4 py-2 rounded-xl flex items-center space-x-3">
+                        <div class="text-right">
+                            <p class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Nº de Traslado Correlativo</p>
+                            <p id="display-num-traslado" class="font-mono text-lg font-bold text-sky-400">TR-2026-000</p>
+                        </div>
+                        <button type="button" onclick="generarNuevoNumeroTraslado()" class="text-slate-400 hover:text-white transition-colors" title="Regenerar código">
+                            <i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+                </div>
 
-          <h3 style="font-size: 15px; color: var(--primary); margin-top: 20px;">2. Datos del Paciente y Diagnóstico</h3>
-          <div class="grid-3">
-            <div class="form-group">
-              <label>Nombre Completo del Paciente *</label>
-              <input type="text" id="pac_nombre" class="form-control" placeholder="Ej: María Eugenia López" required>
-            </div>
-            <div class="form-group">
-              <label>DNI *</label>
-              <input type="text" id="pac_dni" class="form-control" placeholder="Ej: 30123456" required>
-            </div>
-            <div class="form-group">
-              <label>Edad</label>
-              <input type="number" id="pac_edad" class="form-control" placeholder="Ej: 54">
-            </div>
-          </div>
+                <form id="form-traslado" onsubmit="guardarSolicitud(event)" class="p-6 space-y-8">
+                    <!-- SECCIÓN 1 -->
+                    <div>
+                        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">1</span>
+                            <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Cobertura Sanitaria y Prioridad</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Obra Social / Prepaga *</label>
+                                <input type="text" id="obraSocial" required placeholder="Ej. OSDE, Swiss Medical, PAMI" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nº de Afiliado *</label>
+                                <input type="text" id="numAfiliado" required placeholder="000-0000000-00" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none font-mono">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nivel de Prioridad *</label>
+                                <select id="prioridad" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none font-medium">
+                                    <option value="Verde">🟢 Verde - Programado / Diferido</option>
+                                    <option value="Amarillo">🟡 Amarillo - Urgencia Media</option>
+                                    <option value="Rojo">🔴 Rojo - Emergencia Vital / UTIM</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="form-group">
-            <label>Diagnóstico / Cuadro Clínico de Origen *</label>
-            <input type="text" id="pac_diag" class="form-control" placeholder="Ej: Síndrome Coronario Agudo" required>
-          </div>
+                    <!-- SECCIÓN 2 -->
+                    <div>
+                        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">2</span>
+                            <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Información del Paciente y Evaluación Clínica</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo del Paciente *</label>
+                                <input type="text" id="pacienteNombre" required placeholder="Apellido y Nombre" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">DNI / Documento *</label>
+                                <input type="text" id="pacienteDNI" required placeholder="Ej. 35123456" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none font-mono">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Edad *</label>
+                                <input type="number" id="pacienteEdad" min="0" max="120" required placeholder="Ej. 45" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                            </div>
+                        </div>
 
-          <h3 style="font-size: 15px; color: var(--primary); margin-top: 20px;">3. Traza de Origen, Destino y Complejidad</h3>
-          <div class="grid-3">
-            <div class="form-group">
-              <label>Dirección u Hospital de Origen *</label>
-              <input type="text" id="traza_origen" class="form-control" placeholder="Ej: Av. Colón 1200" required>
-            </div>
-            <div class="form-group">
-              <label>Dirección u Hospital de Destino *</label>
-              <input type="text" id="traza_destino" class="form-control" placeholder="Ej: Hospital de Clínicas" required>
-            </div>
-            <div class="form-group">
-              <label>Tipo de Complejidad *</label>
-              <select id="traza_complejidad" class="form-control" required>
-                <option value="Baja (Traslado Común)">Baja (Traslado Común)</option>
-                <option value="Media (Monitoreo Continuo)">Media (Monitoreo Continuo)</option>
-                <option value="Alta (UTI Móvil / Terapia Intensiva)">Alta (UTI Móvil / Terapia Intensiva)</option>
-              </select>
-            </div>
-          </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Tipo de Móvil / Unidad Requerida *</label>
+                                <select id="tipoUnidad" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                                    <option value="UTIM - Alta Complejidad">UTIM - Alta Complejidad</option>
+                                    <option value="Traslado Simple - Baja Complejidad">Traslado Simple - Baja Complejidad</option>
+                                    <option value="Unidad Coronaria Reanimación">Unidad Coronaria (UCO)</option>
+                                    <option value="Unidad Neonatal / Pediatría">Unidad Neonatal / Pediatría</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Estado Clínico *</label>
+                                <select id="estadoClinico" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                                    <option value="Estable">Estable - Lúcido</option>
+                                    <option value="Silla de Ruedas">Movilidad reducida (En Silla)</option>
+                                    <option value="Camilla con Oxígeno">En Camilla con Oxígenoterapia</option>
+                                    <option value="Asistencia Respiratoria Mecánica (ARM)">Asistencia Respiratoria (ARM)</option>
+                                    <option value="Cuidados Intensivos / Instable">Estado Crítico / Inestable</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Requerimiento de Oxígeno (L/min)</label>
+                                <input type="text" id="reqOxigeno" placeholder="Ej. 2 L/min o N/A" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none">
+                            </div>
+                        </div>
 
-          <div class="form-group">
-            <label>Requerimientos Especiales de Equipamiento</label>
-            <div class="checkbox-group">
-              <label><input type="checkbox" id="req_oxigeno"> Requiere Oxígeno Medicinal</label>
-              <label><input type="checkbox" id="req_respirador"> Requiere Respirador Artificial / ARM</label>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Diagnóstico Médico Presuntivo *</label>
+                            <textarea id="diagnostico" rows="2" required placeholder="Describa brevemente el cuadro clínico, antecedentes importantes o motivo de derivación..." class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- SECCIÓN 3 -->
+                    <div>
+                        <div class="flex items-center space-x-2 border-b border-slate-200 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xs">3</span>
+                            <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">Ruta del Traslado & Fechas</h2>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                                <span class="text-xs font-bold text-sky-700 flex items-center gap-1.5 uppercase">
+                                    <i class="fa-solid fa-circle-dot text-sky-500"></i> Punto de Origen
+                                </span>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Establecimiento / Domicilio *</label>
+                                    <input type="text" id="origenLugar" required placeholder="Ej. Hospital Central" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Ciudad / Localidad *</label>
+                                        <input type="text" id="origenCiudad" required placeholder="Ej. Córdoba" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Piso / Hab / Depto</label>
+                                        <input type="text" id="origenDetalle" placeholder="Piso 3" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                                <span class="text-xs font-bold text-emerald-700 flex items-center gap-1.5 uppercase">
+                                    <i class="fa-solid fa-location-dot text-emerald-600"></i> Punto de Destino
+                                </span>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-600 mb-1">Sanatorio / Centro Receptivo *</label>
+                                    <input type="text" id="destinoLugar" required placeholder="Ej. Clínica San Allende" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Ciudad / Localidad *</label>
+                                        <input type="text" id="destinoCiudad" required placeholder="Ej. Rosario" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Servicio Receptor</label>
+                                        <input type="text" id="destinoDetalle" placeholder="Guardia / UTI" class="w-full text-sm px-3 py-2 bg-white rounded-lg border border-slate-300 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha y Hora Programada *</label>
+                                <input type="datetime-local" id="fechaHoraProgramada" required class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Médico Derivante / Solicitante *</label>
+                                <input type="text" id="medicoSolicitante" required placeholder="Dr. / Dra. Nombre" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Teléfono Directo de Contacto *</label>
+                                <input type="tel" id="telefonoContacto" required placeholder="Ej. 351 155123456" class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 outline-none font-mono">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTÓN ENVIAR -->
+                    <div class="pt-4 border-t border-slate-200 flex justify-end">
+                        <button type="submit" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-sky-600 to-brand-700 hover:from-sky-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-sky-600/25 transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Registrar y Confirmar Solicitud de Traslado</span>
+                        </button>
+                    </div>
+                </form>
             </div>
-          </div>
+        </section>
 
-          <div class="form-group">
-            <label>Observaciones Adicionales</label>
-            <textarea id="pac_obs" class="form-control" rows="2" placeholder="Indicaciones médicas..."></textarea>
-          </div>
+        <!-- PANTALLA DE BLOQUEO DE SEGURIDAD PARA PANEL ADMIN -->
+        <section id="admin-lock-screen" class="hidden max-w-md mx-auto py-12">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 text-center space-y-6">
+                <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-900">Acceso Restringido al Panel Central</h2>
+                    <p class="text-xs text-slate-500 mt-1">Ingrese la contraseña de seguridad (`rogerf2018`) para acceder al historial, despachos y respaldos.</p>
+                </div>
+                <form onsubmit="autenticarAdmin(event)" class="space-y-4">
+                    <div>
+                        <input type="password" id="adminPasswordInput" placeholder="Contraseña de acceso" class="w-full text-center tracking-widest text-lg px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 outline-none font-mono">
+                        <p id="auth-error-msg" class="text-xs text-rose-600 font-semibold mt-2 hidden">
+                            <i class="fa-solid fa-triangle-exclamation"></i> Contraseña incorrecta. Reintente.
+                        </p>
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow transition">
+                        Desbloquear Panel Central
+                    </button>
+                </form>
+            </div>
+        </section>
 
-          <button type="submit" class="btn-submit">🚑 Solicitar Ambulancia de Inmediato</button>
-        </form>
-      </div>
+        <!-- TAB 2: PANEL ADMINISTRATIVO Y ASIGNACIÓN (PROTEGIDO) -->
+        <section id="tab-admin" class="hidden space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 text-white p-5 rounded-2xl shadow-lg border border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <div class="p-3 bg-sky-500/20 text-sky-400 rounded-xl border border-sky-500/30">
+                        <i class="fa-solid fa-shield-halved text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold flex items-center gap-2">
+                            Panel Central Administrador & Despacho
+                            <span class="bg-emerald-500 text-slate-950 text-[10px] px-2 py-0.5 rounded-full font-extrabold uppercase">SECURE ZONE</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Control en tiempo real de unidades sanitarias, asignaciones, historial y respaldos del sistema.</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="descargarReporteImpresoPDF()" class="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs rounded-xl transition shadow flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>Descargar Reporte Físico / PDF</span>
+                    </button>
+                    <button onclick="exportarCSV()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-xl transition shadow flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span>Exportar Excel (CSV)</span>
+                    </button>
+                    <button onclick="cerrarSesionAdmin()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl transition border border-slate-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Bloquear Panel</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                    <p class="text-xs text-slate-400 font-bold uppercase">Total Traslados</p>
+                    <p id="stat-total" class="text-2xl font-black text-slate-900 font-mono">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                    <p class="text-xs text-slate-400 font-bold uppercase">En Curso / Pendientes</p>
+                    <p id="stat-activas" class="text-2xl font-black text-sky-600 font-mono">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                    <p class="text-xs text-slate-400 font-bold uppercase">Completados</p>
+                    <p id="stat-completadas" class="text-2xl font-black text-emerald-600 font-mono">0</p>
+                </div>
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                    <p class="text-xs text-slate-400 font-bold uppercase">Urgencias Rojas (UTIM)</p>
+                    <p id="stat-urgencias" class="text-2xl font-black text-rose-600 font-mono">0</p>
+                </div>
+            </div>
+
+            <!-- Listado Admin -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-sky-600"></i>
+                        Gestión Activa de Solicitudes y Unidades
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <input type="text" id="searchFilter" oninput="renderizarPanelAdmin()" placeholder="Buscar paciente o Nº..." class="text-xs px-3 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500 w-full sm:w-48">
+                        <select id="statusFilter" onchange="renderizarPanelAdmin()" class="text-xs px-3 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="TODOS">Todos los Estados</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Curso">En Curso</option>
+                            <option value="Completado">Completado</option>
+                        </select>
+                        <select id="priorityFilter" onchange="renderizarPanelAdmin()" class="text-xs px-3 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="TODAS">Todas las Prioridades</option>
+                            <option value="Verde">Verde</option>
+                            <option value="Amarillo">Amarillo</option>
+                            <option value="Rojo">Rojo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="admin-traslados-list" class="space-y-4"></div>
+            </div>
+
+            <!-- APARTADO ARCHIVO & VIDEOS -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-4">
+                    <div>
+                        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-vault text-amber-600"></i>
+                            Archivo Bóveda & Registros Multimedia
+                        </h3>
+                        <p class="text-xs text-slate-500">Almacenamiento permanente de traslados cumplidos, fichas clínicas y grabaciones de cámaras.</p>
+                    </div>
+                    <div class="flex items-center space-x-2 w-full md:w-auto">
+                        <input type="text" id="searchArchivoInput" oninput="renderizarArchivoMultimedial()" placeholder="Buscar en archivo..." class="text-xs px-3 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500 w-full sm:w-56">
+                        <select id="filterTipoArchivo" onchange="renderizarArchivoMultimedial()" class="text-xs px-3 py-2 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500">
+                            <option value="TODOS">Todos los Archivos</option>
+                            <option value="CON_VIDEO">Solo con Video / Evidencia</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="archivo-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+            </div>
+
+            <!-- HISTORIAL GENERAL -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                    <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-sky-600"></i>
+                        Historial Completo de Traslados (Registro Maestro)
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="exportarBackupJSON()" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition shadow flex items-center gap-1.5">
+                            <i class="fa-solid fa-cloud-arrow-down"></i> Descargar Copia JSON
+                        </button>
+                        <label class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition cursor-pointer flex items-center gap-1.5 border border-slate-300">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Restaurar Copia JSON
+                            <input type="file" accept=".json" onchange="importarBackupJSON(event)" class="hidden">
+                        </label>
+                    </div>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 uppercase font-bold text-[10px]">
+                                <th class="py-3 px-4">Nº Traslado</th>
+                                <th class="py-3 px-4">Fecha/Hora</th>
+                                <th class="py-3 px-4">Paciente</th>
+                                <th class="py-3 px-4">Ruta</th>
+                                <th class="py-3 px-4">Móvil/Chofer</th>
+                                <th class="py-3 px-4">Prioridad</th>
+                                <th class="py-3 px-4">Estado</th>
+                                <th class="py-3 px-4 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historial-table-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: MÓDULO DE VIGILANCIA EN TIEMPO REAL & CÁMARAS (PROTEGIDO) -->
+        <section id="tab-vigilancia" class="hidden space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900 text-white p-5 rounded-2xl shadow-lg border border-slate-800">
+                <div class="flex items-center space-x-3">
+                    <div class="p-3 bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30">
+                        <i class="fa-solid fa-video text-2xl animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-bold flex items-center gap-2">
+                            Centro de Vigilancia y Telemetría en Vivo
+                            <span class="bg-rose-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">LIVE FEED</span>
+                        </h2>
+                        <p class="text-xs text-slate-400">Monitoreo audiovisual de cabinas sanitarias, ficha de la tripulación y canal de voz/alerta médica inmediata.</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="cerrarSesionAdmin()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs rounded-xl transition border border-slate-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Bloquear Módulo</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="space-y-6">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+                            <i class="fa-solid fa-truck-medical text-sky-600"></i>
+                            Selección de Móvil en Transmisión
+                        </h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Unidad en Operación</label>
+                            <select id="selectMovilVigilancia" onchange="cambiarUnidadVigilancia()" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 outline-none font-semibold">
+                                <option value="MOVIL-01">Móvil UTIM 01 (Mercedes Sprinter)</option>
+                                <option value="MOVIL-02">Móvil UTIM 02 (Ford Transit)</option>
+                                <option value="MOVIL-03">Móvil Traslado 03 (Peugeot Boxer)</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                            <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wide flex justify-between items-center">
+                                <span>Ficha de Tripulación</span>
+                                <span class="text-[10px] text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded font-bold">En Servicio</span>
+                            </h4>
+                            
+                            <div class="space-y-2 border-b border-slate-200 pb-3">
+                                <span class="text-[11px] font-bold text-sky-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-user-gear"></i> Chofer Asignado
+                                </span>
+                                <div><input type="text" id="vigilanciaChoferNombre" placeholder="Nombre chofer" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 outline-none bg-white"></div>
+                                <div><input type="tel" id="vigilanciaChoferTel" placeholder="Teléfono / Celular" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 outline-none bg-white font-mono"></div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <span class="text-[11px] font-bold text-purple-700 flex items-center gap-1">
+                                    <i class="fa-solid fa-user-nurse"></i> Acompañante / Enfermero
+                                </span>
+                                <div><input type="text" id="vigilanciaAcompNombre" placeholder="Nombre enfermero/médico" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 outline-none bg-white"></div>
+                                <div><input type="tel" id="vigilanciaAcompTel" placeholder="Teléfono / Celular" class="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 outline-none bg-white font-mono"></div>
+                            </div>
+
+                            <button onclick="guardarTripulacionVigilancia()" class="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition shadow">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> Actualizar Ficha de Tripulantes
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-rose-900 to-slate-900 text-white p-5 rounded-2xl border border-rose-800 shadow-xl space-y-4">
+                        <div class="flex items-center space-x-2 text-rose-400">
+                            <i class="fa-solid fa-walkie-talkie text-xl animate-bounce"></i>
+                            <h3 class="font-bold text-sm">Canal Directo de Emergencia</h3>
+                        </div>
+                        <p class="text-xs text-slate-300">Si el médico observador detecta una descompensación en las cámaras, active la línea rápida:</p>
+                        
+                        <div class="space-y-2">
+                            <button onclick="llamarTripulacion('chofer')" class="w-full py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl transition shadow flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-phone-volume text-sm"></i>
+                                <span>Llamar Urgente al Chofer</span>
+                            </button>
+                            <button onclick="llamarTripulacion('acomp')" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition shadow flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-user-nurse text-sm"></i>
+                                <span>Llamar al Enfermero / Acompañante</span>
+                            </button>
+                            <button onclick="enviarAlertaWhatsApp()" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl transition shadow flex items-center justify-center space-x-2">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>Enviar Alerta por WhatsApp</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
+                        <div class="bg-slate-950 px-5 py-3 border-b border-slate-800 flex justify-between items-center text-xs text-slate-300">
+                            <div class="flex items-center space-x-3">
+                                <span class="flex items-center gap-1.5 text-rose-400 font-bold">
+                                    <span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-ping"></span>
+                                    CÁMARA 01: CAMILLA PATIENT FEED
+                                </span>
+                                <span class="bg-slate-800 px-2 py-0.5 rounded text-[10px] font-mono font-bold text-slate-400">1080p 60fps</span>
+                            </div>
+                            <div class="flex items-center space-x-3 font-mono text-[11px]">
+                                <span><i class="fa-solid fa-signal text-emerald-400 mr-1"></i> 5G LIVE</span>
+                                <span id="cameraClock" class="text-sky-400">00:00:00</span>
+                            </div>
+                        </div>
+
+                        <div class="relative bg-slate-950 aspect-video flex items-center justify-center overflow-hidden border-b border-slate-800">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40 opacity-80 z-10 pointer-events-none"></div>
+                            
+                            <div class="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/90 text-slate-600 space-y-3">
+                                <i class="fa-solid fa-truck-medical text-6xl text-slate-800 animate-pulse"></i>
+                                <p class="font-mono text-xs text-slate-500">TRANSMISIÓN EN VIVO DESDE UNIDAD DE TRASLADO</p>
+                                <span class="text-[10px] bg-slate-800 text-sky-400 font-mono px-3 py-1 rounded-full border border-slate-700">CAM 1 - Vista de Camilla Sanitaria</span>
+                            </div>
+
+                            <div class="absolute top-4 left-4 z-20 bg-slate-950/80 backdrop-blur p-3 rounded-xl border border-slate-800 text-white text-[11px] space-y-1 font-mono">
+                                <p class="text-emerald-400 font-bold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-heart-pulse animate-pulse"></i> Oximetría SpO2: 98%
+                                </p>
+                                <p class="text-sky-400">Presión Art: 120/80 mmHg</p>
+                                <p class="text-amber-400">Ritmo Cardíaco: 74 BPM</p>
+                            </div>
+
+                            <div class="absolute bottom-4 right-4 z-20 flex space-x-2">
+                                <button onclick="simularAlertaMedica()" class="px-3 py-1.5 bg-rose-600/90 hover:bg-rose-600 text-white font-bold text-xs rounded-lg shadow backdrop-blur transition flex items-center gap-1">
+                                    <i class="fa-solid fa-triangle-exclamation"></i> Emitir Alerta Médica
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-slate-950 grid grid-cols-3 gap-3">
+                            <button onclick="cambiarAnguloCamara('Camilla')" class="bg-slate-800 hover:bg-slate-700 text-white p-2.5 rounded-xl border border-slate-700 text-left transition space-y-1">
+                                <div class="flex justify-between items-center text-[10px] font-mono text-slate-400">
+                                    <span>CAM 1</span>
+                                    <span class="text-emerald-400 font-bold">ACTIVA</span>
+                                </div>
+                                <p class="text-xs font-bold text-slate-200">Camilla de Paciente</p>
+                            </button>
+                            <button onclick="cambiarAnguloCamara('Cabina')" class="bg-slate-900 hover:bg-slate-800 text-slate-400 p-2.5 rounded-xl border border-slate-800 text-left transition space-y-1">
+                                <div class="flex justify-between items-center text-[10px] font-mono">
+                                    <span>CAM 2</span>
+                                    <span>OFFLINE</span>
+                                </div>
+                                <p class="text-xs font-bold text-slate-300">Cabina Conductor</p>
+                            </button>
+                            <button onclick="cambiarAnguloCamara('Frontal')" class="bg-slate-900 hover:bg-slate-800 text-slate-400 p-2.5 rounded-xl border border-slate-800 text-left transition space-y-1">
+                                <div class="flex justify-between items-center text-[10px] font-mono">
+                                    <span>CAM 3</span>
+                                    <span>OFFLINE</span>
+                                </div>
+                                <p class="text-xs font-bold text-slate-300">Dashcam Ruta</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-clipboard-check text-sky-600"></i>
+                            Notas y Observaciones de Telemonitoreo Médico
+                        </h3>
+                        <textarea id="notasVigilancia" rows="3" placeholder="El médico de guardia puede anotar observaciones del trayecto..." class="w-full text-xs p-3 rounded-xl border border-slate-300 outline-none focus:ring-2 focus:ring-sky-500"></textarea>
+                        <div class="flex justify-end">
+                            <button onclick="guardarNotaVigilancia()" class="px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs rounded-xl shadow transition">
+                                Guardar Anotación en la Historia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE ASIGNACIÓN -->
+    <div id="modal-asignacion" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full border border-slate-200 overflow-hidden">
+            <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-truck-medical text-sky-400"></i>
+                    Despachar / Actualizar Traslado
+                </h3>
+                <button onclick="cerrarModalAsignacion()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <form onsubmit="guardarAsignacion(event)" class="p-6 space-y-4">
+                <input type="hidden" id="modal-traslado-id">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Móvil Asignado</label>
+                        <input type="text" id="modalMovil" placeholder="Ej. Móvil UTIM 01" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Estado</label>
+                        <select id="modalEstado" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 outline-none">
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="En Curso">En Curso</option>
+                            <option value="Completado">Completado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Chofer</label>
+                        <input type="text" id="modalChofer" placeholder="Nombre chofer" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Médico a Bordo</label>
+                        <input type="text" id="modalMedicoBordo" placeholder="Nombre médico" class="w-full text-sm px-3 py-2 rounded-lg border border-slate-300 outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Enlace a Video / Grabación (YouTube / Drive / MP4)</label>
+                    <input type="url" id="modalVideoUrl" placeholder="https://..." class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 outline-none font-mono">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Novedades / Notas</label>
+                    <textarea id="modalNovedades" rows="2" placeholder="Registro de incidencias..." class="w-full text-sm px-3.5 py-2.5 rounded-lg border border-slate-300 outline-none"></textarea>
+                </div>
+
+                <div class="pt-3 flex justify-end space-x-2">
+                    <button type="button" onclick="cerrarModalAsignacion()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl shadow">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <!-- VISTA PRIVADA DIRECTOR -->
-    <div id="adminView" style="display: none;">
-      <div class="card">
-        <h2>🚑 Flota, Camas, Cámaras y Asignación de Tripulación</h2>
-        <div class="grid-3" id="fleetCardsContainer"></div>
-      </div>
-
-      <div class="card">
-        <h2>📋 Solicitudes Recibidas de Clínicas y Sanatorios</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Solicitante / Contacto</th>
-              <th>Paciente (DNI)</th>
-              <th>Diagnóstico / Complejidad</th>
-              <th>Origen ➔ Destino</th>
-              <th>Estado</th>
-              <th>Despachar Ambulancia</th>
-            </tr>
-          </thead>
-          <tbody id="adminSolicitudesBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- MODAL LOGIN -->
-  <div id="loginModal">
-    <div class="login-box">
-      <h2 style="margin-top:0;">🔒 Acceso Director / Médico</h2>
-      <div class="form-group">
-        <input type="text" id="userAdmin" class="form-control" value="admin" placeholder="Usuario">
-      </div>
-      <div class="form-group">
-        <input type="password" id="passAdmin" class="form-control" value="admin123" placeholder="Contraseña">
-      </div>
-      <button class="btn-submit" onclick="loginAdmin()">Ingresar al Panel</button>
-      <button style="background:transparent; border:none; color:var(--muted); margin-top:10px; cursor:pointer;" onclick="cerrarModal()">Cancelar</button>
-    </div>
-  </div>
-
-  <script>
-    const API = '/api';
-
-    async function enviarSolicitudPública(e) {
-      e.preventDefault();
-      const payload = {
-        institucion_solicitante: document.getElementById('sol_inst').value,
-        medico_solicitante: document.getElementById('sol_medico').value,
-        telefono_contacto: document.getElementById('sol_tel').value,
-        paciente_nombre: document.getElementById('pac_nombre').value,
-        dni: document.getElementById('pac_dni').value,
-        edad: document.getElementById('pac_edad').value,
-        diagnostico: document.getElementById('pac_diag').value,
-        origen: document.getElementById('traza_origen').value,
-        destino: document.getElementById('traza_destino').value,
-        tipo_complejidad: document.getElementById('traza_complejidad').value,
-        requiere_oxigeno: document.getElementById('req_oxigeno').checked,
-        requiere_respirador: document.getElementById('req_respirador').checked,
-        observaciones: document.getElementById('pac_obs').value
-      };
-
-      const res = await fetch(`${API}/public/solicitud`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-
-      if (res.ok) {
-        document.getElementById('msgExito').style.display = 'block';
-        document.getElementById('publicForm').reset();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        setTimeout(() => document.getElementById('msgExito').style.display = 'none', 6000);
-      }
-    }
-
-    function toggleAuthView() {
-      const token = localStorage.getItem('amb_admin_token');
-      if (token) {
-        localStorage.removeItem('amb_admin_token');
-        location.reload();
-      } else {
-        document.getElementById('loginModal').style.display = 'flex';
-      }
-    }
-
-    function cerrarModal() {
-      document.getElementById('loginModal').style.display = 'none';
-    }
-
-    async function loginAdmin() {
-      const username = document.getElementById('userAdmin').value;
-      const password = document.getElementById('passAdmin').value;
-
-      const res = await fetch(`${API}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem('amb_admin_token', data.token);
-        cerrarModal();
-        cargarPanelAdmin();
-      } else {
-        alert(data.error);
-      }
-    }
-
-    async function cargarPanelAdmin() {
-      document.getElementById('publicView').style.display = 'none';
-      document.getElementById('adminView').style.display = 'block';
-      document.getElementById('btnNavAuth').textContent = 'Cerrar Sesión Director';
-
-      const token = localStorage.getItem('amb_admin_token');
-
-      const resFleet = await fetch(`${API}/admin/fleet`, { headers: { 'Authorization': `Bearer ${token}` } });
-      const fleet = await resFleet.json();
-
-      document.getElementById('fleetCardsContainer').innerHTML = fleet.map(u => `
-        <div style="border:1px solid var(--border); padding:15px; border-radius:8px; background:#fafafa;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <b style="font-size:16px;">${u.unit_code}</b>
-            <span class="badge ${u.status === 'Disponible' ? 'badge-success' : 'badge-warning'}">${u.status}</span>
-          </div>
-          <p style="font-size:12px; margin:4px 0;"><b>Ubicación:</b> ${u.location}</p>
-          <div style="background:#fff; border:1px solid #e2e8f0; padding:6px; border-radius:6px; font-size:11px; margin-bottom:8px;">
-            🛏️ <b>Cama:</b> ${u.has_bed ? '<span style="color:green;">DISPONIBLE</span>' : '<span style="color:red;">OCUPADA</span>'} (${u.bed_type})
-          </div>
-
-          <!-- ASIGNACIÓN DINÁMICA DE TRIPULACIÓN -->
-          <div style="background:#f1f5f9; padding:8px; border-radius:6px; margin-bottom:8px;">
-            <small style="font-weight:bold; color:var(--primary);">👥 Asignar Tripulación:</small>
-            <div class="form-group" style="margin-top:6px;">
-              <input type="text" id="driver_${u.unit_code}" class="form-control" placeholder="Nombre Chofer" value="${u.driver || ''}">
+    <!-- MODAL FICHA IMPRIMIBLE -->
+    <div id="modal-ficha" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full border border-slate-200 overflow-hidden my-8 max-h-[90vh] flex flex-col">
+            <div class="bg-slate-900 text-white px-6 py-4 flex justify-between items-center no-print">
+                <h3 class="font-bold text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice text-sky-400"></i>
+                    Ficha Oficial de Traslado Sanitario
+                </h3>
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.print()" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-lg flex items-center gap-1.5">
+                        <i class="fa-solid fa-print"></i> Imprimir / PDF
+                    </button>
+                    <button onclick="cerrarModalFicha()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
             </div>
-            <div class="form-group">
-              <input type="text" id="dphone_${u.unit_code}" class="form-control" placeholder="Teléfono Chofer (Ej: 549353...)" value="${u.driver_phone || ''}">
-            </div>
-            <div class="form-group">
-              <input type="text" id="medic_${u.unit_code}" class="form-control" placeholder="Nombre Médico / Paramédico" value="${u.paramedic || ''}">
-            </div>
-            <div class="form-group">
-              <input type="text" id="mphone_${u.unit_code}" class="form-control" placeholder="Teléfono Médico (Ej: 549353...)" value="${u.paramedic_phone || ''}">
-            </div>
-            <button class="btn-small" onclick="guardarTripulacion('${u.unit_code}')">💾 Guardar Tripulación</button>
             
-            ${u.driver_phone || u.paramedic_phone ? `
-              <div style="margin-top:6px; display:flex; gap:6px;">
-                ${u.driver_phone ? `<a class="contact-btn" href="https://wa.me/${u.driver_phone}" target="_blank">💬 WSp Chofer</a>` : ''}
-                ${u.paramedic_phone ? `<a class="contact-btn" href="https://wa.me/${u.paramedic_phone}" target="_blank">💬 WSp Médico</a>` : ''}
-              </div>
-            ` : ''}
-          </div>
-
-          <div>
-            <small><b>Cámara en Vivo (MDVR):</b></small>
-            <video src="${u.stream_url}" controls autoplay loop muted></video>
-          </div>
-          <button style="margin-top:8px; width:100%; font-size:11px; cursor:pointer; padding:6px;" onclick="downloadPDF('${u.unit_code}')">📄 Descargar Informe PDF</button>
+            <div id="ficha-printable-content" class="p-6 overflow-y-auto space-y-6 text-slate-800 custom-scrollbar"></div>
         </div>
-      `).join('');
+    </div>
 
-      const resSol = await fetch(`${API}/admin/solicitudes`, { headers: { 'Authorization': `Bearer ${token}` } });
-      const solicitudes = await resSol.json();
+    <!-- JAVASCRIPT -->
+    <script>
+        const ADMIN_PASS = "rogerf2018";
+        let isAdminAuthenticated = false;
+        let traslados = [];
+        let tripulaciones = {
+            'MOVIL-01': { choferNombre: 'Juan Pérez', choferTel: '3515123456', acompNombre: 'Dra. Sofía Martínez', acompTel: '3515987654' },
+            'MOVIL-02': { choferNombre: 'Carlos Gómez', choferTel: '3515222333', acompNombre: 'Enf. Lucas Díaz', acompTel: '3515444555' },
+            'MOVIL-03': { choferNombre: 'Mariano López', choferTel: '3515666777', acompNombre: 'Dra. Paula Rivas', acompTel: '3515888999' }
+        };
 
-      document.getElementById('adminSolicitudesBody').innerHTML = solicitudes.map(s => `
-        <tr>
-          <td>#${s.id}</td>
-          <td><b>${s.institucion_solicitante}</b><br><small>${s.medico_solicitante} (${s.telefono_contacto})</small></td>
-          <td><b>${s.paciente_nombre}</b><br><small>DNI: ${s.dni}</small></td>
-          <td>${s.diagnostico}<br><span class="badge badge-warning">${s.tipo_complejidad}</span></td>
-          <td>${s.origen} ➔ <br><b>${s.destino}</b></td>
-          <td><span class="badge ${s.estado === 'Pendiente' ? 'badge-danger' : 'badge-success'}">${s.estado}</span> ${s.ambulancia_asignada ? `(${s.ambulancia_asignada})` : ''}</td>
-          <td>
-            ${s.estado === 'Pendiente' ? `
-              <select class="form-control" style="font-size:12px; padding:4px;" onchange="despacharUnidad(${s.id}, this.value)">
-                <option value="">Seleccionar Ambulancia...</option>
-                <option value="AMB-01">AMB-01</option>
-                <option value="AMB-02">AMB-02</option>
-                <option value="AMB-03">AMB-03</option>
-              </select>
-            ` : 'Despachado'}
-          </td>
-        </tr>
-      `).join('');
-    }
+        window.onload = function() {
+            cargarDatos();
+            generarNuevoNumeroTraslado();
+            actualizarEstadisticas();
+            iniciarRelojCamara();
+            cargarTripulacionVigilancia();
+        };
 
-    async function guardarTripulacion(unitCode) {
-      const driver = document.getElementById(`driver_${unitCode}`).value;
-      const driver_phone = document.getElementById(`dphone_${unitCode}`).value;
-      const paramedic = document.getElementById(`medic_${unitCode}`).value;
-      const paramedic_phone = document.getElementById(`mphone_${unitCode}`).value;
+        function iniciarRelojCamara() {
+            setInterval(() => {
+                const clockElem = document.getElementById('cameraClock');
+                if (clockElem) clockElem.innerText = new Date().toLocaleTimeString();
+            }, 1000);
+        }
 
-      const token = localStorage.getItem('amb_admin_token');
-      const res = await fetch(`${API}/admin/fleet/${unitCode}/crew`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ driver, driver_phone, paramedic, paramedic_phone })
-      });
+        function cambiarUnidadVigilancia() {
+            cargarTripulacionVigilancia();
+            mostrarToast("Cambio de feed de cámara", "info");
+        }
 
-      if (res.ok) {
-        alert('¡Tripulación actualizada con éxito!');
-        cargarPanelAdmin();
-      }
-    }
+        function cargarTripulacionVigilancia() {
+            const movil = document.getElementById('selectMovilVigilancia')?.value || 'MOVIL-01';
+            const data = tripulaciones[movil] || { choferNombre: '', choferTel: '', acompNombre: '', acompTel: '' };
+            if (document.getElementById('vigilanciaChoferNombre')) document.getElementById('vigilanciaChoferNombre').value = data.choferNombre;
+            if (document.getElementById('vigilanciaChoferTel')) document.getElementById('vigilanciaChoferTel').value = data.choferTel;
+            if (document.getElementById('vigilanciaAcompNombre')) document.getElementById('vigilanciaAcompNombre').value = data.acompNombre;
+            if (document.getElementById('vigilanciaAcompTel')) document.getElementById('vigilanciaAcompTel').value = data.acompTel;
+        }
 
-    async function despacharUnidad(id, ambulancia) {
-      if (!ambulancia) return;
-      const token = localStorage.getItem('amb_admin_token');
-      const res = await fetch(`${API}/admin/solicitudes/${id}/asignar`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify({ ambulancia })
-      });
-      if (res.ok) cargarPanelAdmin();
-    }
+        function guardarTripulacionVigilancia() {
+            const movil = document.getElementById('selectMovilVigilancia').value;
+            tripulaciones[movil] = {
+                choferNombre: document.getElementById('vigilanciaChoferNombre').value,
+                choferTel: document.getElementById('vigilanciaChoferTel').value,
+                acompNombre: document.getElementById('vigilanciaAcompNombre').value,
+                acompTel: document.getElementById('vigilanciaAcompTel').value
+            };
+            localStorage.setItem('care_tripulaciones_db', JSON.stringify(tripulaciones));
+            mostrarToast(`Tripulación actualizada para ${movil}`, "success");
+        }
 
-    async function downloadPDF(unitCode) {
-      const token = localStorage.getItem('amb_admin_token');
-      const response = await fetch(`${API}/reports/pdf/${unitCode}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!response.ok) return alert('Error al generar PDF');
-      const blob = await response.blob();
-      window.open(window.URL.createObjectURL(blob), '_blank');
-    }
+        function llamarTripulacion(tipo) {
+            const movil = document.getElementById('selectMovilVigilancia').value;
+            const trip = tripulaciones[movil];
+            const tel = tipo === 'chofer' ? trip?.choferTel : trip?.acompTel;
+            const nombre = tipo === 'chofer' ? trip?.choferNombre : trip?.acompNombre;
+            if (tel && tel.trim() !== '') {
+                window.open(`tel:${tel}`, '_self');
+                mostrarToast(`Llamando a ${nombre}...`, "info");
+            } else {
+                mostrarToast("No hay número de teléfono cargado.", "info");
+            }
+        }
 
-    if (localStorage.getItem('amb_admin_token')) {
-      cargarPanelAdmin();
-    }
-  </script>
+        function enviarAlertaWhatsApp() {
+            const movil = document.getElementById('selectMovilVigilancia').value;
+            const trip = tripulaciones[movil];
+            const tel = trip?.choferTel || trip?.acompTel;
+            if (tel && tel.trim() !== '') {
+                const msg = encodeURIComponent(`🚨 ALERTA MÉDICA CARE: Revisar unidad ${movil}.`);
+                window.open(`https://wa.me/${tel}?text=${msg}`, '_blank');
+            } else {
+                mostrarToast("Número de teléfono no válido.", "info");
+            }
+        }
+
+        function simularAlertaMedica() {
+            mostrarToast("⚠️ ALERTA MÉDICA ACTIVADA", "success");
+        }
+
+        function cambiarAnguloCamara(angulo) {
+            mostrarToast(`Conectando con Cámara: ${angulo}...`, "info");
+        }
+
+        function guardarNotaVigilancia() {
+            const nota = document.getElementById('notasVigilancia').value;
+            if (nota.trim() !== '') {
+                mostrarToast("Anotación guardada en la bitácora", "success");
+                document.getElementById('notasVigilancia').value = '';
+            }
+        }
+
+        function autenticarAdmin(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('adminPasswordInput').value;
+            const errorMsg = document.getElementById('auth-error-msg');
+
+            if (inputPass === ADMIN_PASS) {
+                isAdminAuthenticated = true;
+                errorMsg.classList.add('hidden');
+                document.getElementById('adminPasswordInput').value = '';
+                
+                document.getElementById('admin-lock-screen').classList.add('hidden');
+                document.getElementById('tab-admin').classList.remove('hidden');
+                
+                const badge = document.getElementById('lock-icon-badge');
+                if (badge) badge.innerHTML = '<i class="fa-solid fa-unlock text-emerald-400"></i>';
+
+                renderizarPanelAdmin();
+                renderizarHistorial();
+                renderizarArchivoMultimedial();
+                actualizarEstadisticas();
+                mostrarToast("Panel Administrador desbloqueado", "success");
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function cerrarSesionAdmin() {
+            isAdminAuthenticated = false;
+            const badge = document.getElementById('lock-icon-badge');
+            if (badge) badge.innerHTML = '<i class="fa-solid fa-lock text-amber-400"></i>';
+            switchTab('solicitud');
+            mostrarToast("Sesión cerrada", "info");
+        }
+
+        function actualizarEstilosNav(tabActiva) {
+            const btnSolicitud = document.getElementById('tab-solicitud-btn');
+            const btnAdmin = document.getElementById('tab-admin-btn');
+            const btnVigilancia = document.getElementById('tab-vigilancia-btn');
+
+            btnSolicitud.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all";
+            btnAdmin.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all relative";
+            btnVigilancia.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-700/50 transition-all relative";
+
+            if (tabActiva === 'solicitud') {
+                btnSolicitud.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold bg-sky-600 text-white shadow-sm";
+            } else if (tabActiva === 'admin') {
+                btnAdmin.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold bg-sky-600 text-white shadow-sm relative";
+            } else if (tabActiva === 'vigilancia') {
+                btnVigilancia.className = "flex items-center space-x-2 px-3 sm:px-4 py-2 rounded-lg text-sm font-semibold bg-rose-600 text-white shadow-sm relative";
+            }
+        }
+
+        function generarNuevoNumeroTraslado() {
+            const nextNum = traslados.length + 1;
+            const padNum = String(nextNum).padStart(3, '0');
+            const numStr = `TR-2026-${padNum}`;
+            const displayElem = document.getElementById('display-num-traslado');
+            if (displayElem) displayElem.innerText = numStr;
+            return numStr;
+        }
+
+        function guardarSolicitud(e) {
+            e.preventDefault();
+            const numTraslado = document.getElementById('display-num-traslado').innerText;
+            const nuevaSolicitud = {
+                id: Date.now(),
+                numTraslado: numTraslado,
+                fechaRegistro: new Date().toLocaleString(),
+                obraSocial: document.getElementById('obraSocial').value,
+                numAfiliado: document.getElementById('numAfiliado').value,
+                prioridad: document.getElementById('prioridad').value,
+                pacienteNombre: document.getElementById('pacienteNombre').value,
+                pacienteDNI: document.getElementById('pacienteDNI').value,
+                pacienteEdad: document.getElementById('pacienteEdad').value,
+                tipoUnidad: document.getElementById('tipoUnidad').value,
+                estadoClinico: document.getElementById('estadoClinico').value,
+                reqOxigeno: document.getElementById('reqOxigeno').value || 'Sin requerimiento',
+                diagnostico: document.getElementById('diagnostico').value,
+                origenLugar: document.getElementById('origenLugar').value,
+                origenCiudad: document.getElementById('origenCiudad').value,
+                origenDetalle: document.getElementById('origenDetalle').value || 'N/A',
+                destinoLugar: document.getElementById('destinoLugar').value,
+                destinoCiudad: document.getElementById('destinoCiudad').value,
+                destinoDetalle: document.getElementById('destinoDetalle').value || 'N/A',
+                fechaHoraProgramada: document.getElementById('fechaHoraProgramada').value,
+                medicoSolicitante: document.getElementById('medicoSolicitante').value,
+                telefonoContacto: document.getElementById('telefonoContacto').value,
+                observaciones: document.getElementById('observaciones')?.value || 'Ninguna',
+                estado: "Pendiente",
+                movilAsignado: "Sin Asignar",
+                chofer: "Sin Asignar",
+                medicoBordo: "Sin Asignar",
+                videoUrl: "",
+                novedades: "Solicitud registrada."
+            };
+
+            traslados.unshift(nuevaSolicitud);
+            guardarDatos();
+            document.getElementById('form-traslado').reset();
+            generarNuevoNumeroTraslado();
+            mostrarToast(`Solicitud ${numTraslado} registrada exitosamente`, "success");
+        }
+
+        function guardarDatos() {
+            localStorage.setItem('care_traslados_db', JSON.stringify(traslados));
+        }
+
+        function renderizarPanelAdmin() {
+            const listContainer = document.getElementById('admin-traslados-list');
+            if (!listContainer) return;
+
+            const searchVal = document.getElementById('searchFilter').value.toLowerCase();
+            const statusVal = document.getElementById('statusFilter').value;
+            const priorityVal = document.getElementById('priorityFilter').value;
+
+            let filtrados = traslados.filter(t => {
+                const matchSearch = t.pacienteNombre.toLowerCase().includes(searchVal) || t.numTraslado.toLowerCase().includes(searchVal);
+                const matchStatus = (statusVal === 'TODOS') || (t.estado === statusVal);
+                const matchPriority = (priorityVal === 'TODAS') || (t.prioridad === priorityVal);
+                return matchSearch && matchStatus && matchPriority;
+            });
+
+            if (filtrados.length === 0) {
+                listContainer.innerHTML = `<div class="bg-white p-8 text-center rounded-2xl border border-slate-200 text-slate-400 text-xs">No hay traslados que coincidan.</div>`;
+                return;
+            }
+
+            listContainer.innerHTML = filtrados.map(t => `
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-100 pb-3">
+                        <div class="flex items-center space-x-3">
+                            <span class="font-mono font-bold text-sm bg-slate-900 text-sky-400 px-3 py-1 rounded-xl">${t.numTraslado}</span>
+                            <span class="px-2.5 py-1 rounded-lg text-xs font-bold ${
+                                t.prioridad === 'Rojo' ? 'bg-rose-100 text-rose-700' :
+                                t.prioridad === 'Amarillo' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'
+                            }">${t.prioridad}</span>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">${t.estado}</span>
+                        </div>
+                        <p class="text-xs text-slate-400 font-medium">Programado: <strong>${t.fechaHoraProgramada.replace('T', ' ')} hs</strong></p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                        <div>
+                            <p class="text-slate-400 font-bold uppercase text-[10px]">Paciente</p>
+                            <p class="font-bold text-slate-900 text-sm">${t.pacienteNombre}</p>
+                            <p class="text-slate-500">DNI: ${t.pacienteDNI} | ${t.pacienteEdad} años</p>
+                            <p class="text-sky-700 font-semibold">${t.obraSocial} (${t.numAfiliado})</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 font-bold uppercase text-[10px]">Ruta del Traslado</p>
+                            <p class="text-slate-800"><strong>Origen:</strong> ${t.origenLugar} (${t.origenCiudad})</p>
+                            <p class="text-slate-800"><strong>Destino:</strong> ${t.destinoLugar} (${t.destinoCiudad})</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 font-bold uppercase text-[10px]">Unidad Asignada</p>
+                            <p class="font-semibold text-slate-800">${t.movilAsignado}</p>
+                            <p class="text-slate-500">Chofer: ${t.chofer}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex justify-between items-center">
+                        <button onclick="verFichaCompleta(${t.id})" class="text-xs text-sky-600 font-bold hover:underline flex items-center gap-1">
+                            <i class="fa-solid fa-file-invoice"></i> Ver Ficha Sanitaria
+                        </button>
+                        <button onclick="abrirModalAsignacion(${t.id})" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders"></i> Despachar / Editar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            if ((tab === 'admin' || tab === 'vigilancia') && !isAdminAuthenticated) {
+                document.getElementById('tab-solicitud').classList.add('hidden');
+                document.getElementById('tab-admin').classList.add('hidden');
+                document.getElementById('tab-vigilancia').classList.add('hidden');
+                document.getElementById('admin-lock-screen').classList.remove('hidden');
+                actualizarEstilosNav(tab);
+                return;
+            }
+
+            document.getElementById('admin-lock-screen').classList.add('hidden');
+            document.getElementById('tab-solicitud').classList.add('hidden');
+            document.getElementById('tab-admin').classList.add('hidden');
+            document.getElementById('tab-vigilancia').classList.add('hidden');
+
+            const target = document.getElementById(`tab-${tab}`);
+            if (target) target.classList.remove('hidden');
+            
+            actualizarEstilosNav(tab);
+
+            if (tab === 'admin') {
+                renderizarPanelAdmin();
+                renderizarHistorial();
+                renderizarArchivoMultimedial();
+                actualizarEstadisticas();
+            } else if (tab === 'vigilancia') {
+                cargarTripulacionVigilancia();
+            }
+        }
+
+        function cargarDatos() {
+            const data = localStorage.getItem('care_traslados_db');
+            if (data) {
+                try { traslados = JSON.parse(data); } catch(e) { traslados = []; }
+            }
+            const tripData = localStorage.getItem('care_tripulaciones_db');
+            if (tripData) {
+                try { tripulaciones = JSON.parse(tripData); } catch(e) {}
+            }
+        }
+
+        function renderizarArchivoMultimedial() {
+            const container = document.getElementById('archivo-grid');
+            if (!container) return;
+            const searchVal = document.getElementById('searchArchivoInput').value.toLowerCase();
+            const filterVal = document.getElementById('filterTipoArchivo').value;
+
+            let filtrados = traslados.filter(t => {
+                const matchSearch = t.pacienteNombre.toLowerCase().includes(searchVal) || t.numTraslado.toLowerCase().includes(searchVal);
+                const matchVideo = (filterVal === 'TODOS') || (filterVal === 'CON_VIDEO' && t.videoUrl && t.videoUrl.trim() !== '');
+                return matchSearch && matchVideo;
+            });
+
+            if (filtrados.length === 0) {
+                container.innerHTML = `<div class="col-span-2 bg-slate-50 p-8 text-center rounded-xl border text-slate-400 text-xs">Sin archivos multimedia en bóveda.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtrados.map(t => `
+                <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                        <span class="font-mono font-bold text-xs bg-slate-900 text-sky-400 px-2.5 py-0.5 rounded">${t.numTraslado}</span>
+                        <span class="text-[10px] text-slate-400">${t.fechaRegistro}</span>
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-800 text-xs">${t.pacienteNombre}</p>
+                        <p class="text-[11px] text-slate-500">${t.origenLugar} ➔ ${t.destinoLugar}</p>
+                    </div>
+                    ${t.videoUrl ? `
+                        <div class="bg-slate-900 text-white p-3 rounded-lg text-xs space-y-1">
+                            <p class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-video"></i> Evidencia Multimedia</p>
+                            <a href="${t.videoUrl}" target="_blank" class="text-sky-400 hover:underline break-all font-mono text-[10px] block">${t.videoUrl}</a>
+                        </div>
+                    ` : `<p class="text-[10px] text-slate-400 italic">Sin video adjunto</p>`}
+                    <div class="pt-2 flex justify-between items-center text-xs">
+                        <button onclick="verFichaCompleta(${t.id})" class="text-sky-600 font-bold text-[11px] hover:underline">Ver Ficha Completa</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function descargarReporteImpresoPDF() {
+            if (traslados.length === 0) {
+                mostrarToast("No hay registros para exportar", "info");
+                return;
+            }
+            const printWindow = window.open('', '_blank');
+            const fecha = new Date().toLocaleDateString();
+            let filasHTML = traslados.map(t => `
+                <tr>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd; font-weight: bold;">${t.numTraslado}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.fechaHoraProgramada.replace('T', ' ')}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.pacienteNombre}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.origenLugar} ➔ ${t.destinoLugar}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.movilAsignado}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.prioridad}</td>
+                    <td style="padding: 8px; border-bottom: 1px solid #ddd;">${t.estado}</td>
+                </tr>
+            `).join('');
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><title>Reporte CARE - ${fecha}</title>
+                <style>body { font-family: Arial; font-size: 12px; margin: 20px; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th { background: #0f172a; color: white; padding: 10px; text-align: left; }</style>
+                </head>
+                <body>
+                    <h1>CARE - Reporte General de Traslados</h1>
+                    <p>Fecha: ${fecha} | Total: ${traslados.length}</p>
+                    <table><thead><tr><th>Nº</th><th>Fecha</th><th>Paciente</th><th>Ruta</th><th>Móvil</th><th>Prioridad</th><th>Estado</th></tr></thead><tbody>${filasHTML}</tbody></table>
+                    <script>window.onload = function() { window.print(); }<\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        function abrirModalAsignacion(id) {
+            const item = traslados.find(t => t.id === id);
+            if (!item) return;
+            document.getElementById('modal-traslado-id').value = item.id;
+            document.getElementById('modalMovil').value = item.movilAsignado === 'Sin Asignar' ? '' : item.movilAsignado;
+            document.getElementById('modalChofer').value = item.chofer === 'Sin Asignar' ? '' : item.chofer;
+            document.getElementById('modalMedicoBordo').value = item.medicoBordo === 'Sin Asignar' ? '' : item.medicoBordo;
+            document.getElementById('modalEstado').value = item.estado;
+            document.getElementById('modalVideoUrl').value = item.videoUrl || '';
+            document.getElementById('modalNovedades').value = item.novedades || '';
+            document.getElementById('modal-asignacion').classList.remove('hidden');
+        }
+
+        function cerrarModalAsignacion() {
+            document.getElementById('modal-asignacion').classList.add('hidden');
+        }
+
+        function guardarAsignacion(e) {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('modal-traslado-id').value);
+            const item = traslados.find(t => t.id === id);
+            if (item) {
+                item.movilAsignado = document.getElementById('modalMovil').value || 'Sin Asignar';
+                item.chofer = document.getElementById('modalChofer').value || 'Sin Asignar';
+                item.medicoBordo = document.getElementById('modalMedicoBordo').value || 'Sin Asignar';
+                item.estado = document.getElementById('modalEstado').value;
+                item.videoUrl = document.getElementById('modalVideoUrl').value || '';
+                item.novedades = document.getElementById('modalNovedades').value;
+                guardarDatos();
+                renderizarPanelAdmin();
+                renderizarArchivoMultimedial();
+                cerrarModalAsignacion();
+                mostrarToast("Asignación actualizada", "success");
+            }
+        }
+
+        function renderizarHistorial() {
+            const tbody = document.getElementById('historial-table-body');
+            if (!tbody) return;
+            if (traslados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-400">Sin registros históricos</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = traslados.map(t => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="py-3 px-4 font-mono font-bold text-sky-700">${t.numTraslado}</td>
+                    <td class="py-3 px-4 text-slate-600">${t.fechaHoraProgramada.replace('T', ' ')}</td>
+                    <td class="py-3 px-4"><p class="font-bold text-slate-900">${t.pacienteNombre}</p></td>
+                    <td class="py-3 px-4 text-slate-600">${t.origenLugar} ➔ ${t.destinoLugar}</td>
+                    <td class="py-3 px-4 text-slate-600">${t.movilAsignado}</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${t.prioridad === 'Rojo' ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'}">${t.prioridad}</span></td>
+                    <td class="py-3 px-4 font-semibold text-[11px]">${t.estado}</td>
+                    <td class="py-3 px-4 text-right"><button onclick="verFichaCompleta(${t.id})" class="text-sky-600 font-bold">Ficha</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function verFichaCompleta(id) {
+            const t = traslados.find(x => x.id === id);
+            if (!t) return;
+            document.getElementById('ficha-printable-content').innerHTML = `
+                <div class="border-b-2 border-slate-900 pb-4 flex justify-between items-center">
+                    <div><h1 class="text-2xl font-black text-slate-900">CARE SANATORIAL</h1><p class="text-xs text-slate-500 uppercase">Comprobante Oficial</p></div>
+                    <div class="text-right"><p class="text-xs text-slate-500">Nº Traslado</p><p class="text-xl font-mono font-bold text-sky-700">${t.numTraslado}</p></div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border text-xs space-y-2">
+                    <h4 class="font-bold uppercase text-sky-700">Paciente & Cobertura</h4>
+                    <p><strong>Paciente:</strong> ${t.pacienteNombre} (DNI: ${t.pacienteDNI}, ${t.pacienteEdad} años)</p>
+                    <p><strong>Obra Social:</strong> ${t.obraSocial} - Afiliado: ${t.numAfiliado}</p>
+                </div>
+                <div class="text-xs space-y-2">
+                    <h4 class="font-bold uppercase text-sky-700">Clínica</h4>
+                    <p><strong>Unidad:</strong> ${t.tipoUnidad} | Estado: ${t.estadoClinico}</p>
+                    <p><strong>Diagnóstico:</strong> ${t.diagnostico}</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-xs bg-slate-50 p-4 rounded-xl border">
+                    <div><h5 class="font-bold text-sky-700">ORIGEN</h5><p>${t.origenLugar} (${t.origenCiudad})</p></div>
+                    <div><h5 class="font-bold text-emerald-700">DESTINO</h5><p>${t.destinoLugar} (${t.destinoCiudad})</p></div>
+                </div>
+            `;
+            document.getElementById('modal-ficha').classList.remove('hidden');
+        }
+
+        function cerrarModalFicha() {
+            document.getElementById('modal-ficha').classList.add('hidden');
+        }
+
+        function actualizarEstadisticas() {
+            if (document.getElementById('stat-total')) document.getElementById('stat-total').innerText = traslados.length;
+            if (document.getElementById('stat-activas')) document.getElementById('stat-activas').innerText = traslados.filter(t => t.estado !== 'Completado').length;
+            if (document.getElementById('stat-completadas')) document.getElementById('stat-completadas').innerText = traslados.filter(t => t.estado === 'Completado').length;
+            if (document.getElementById('stat-urgencias')) document.getElementById('stat-urgencias').innerText = traslados.filter(t => t.prioridad === 'Rojo').length;
+        }
+
+        function exportarBackupJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(traslados, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `CARE_BACKUP_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            mostrarToast("Backup JSON descargado", "success");
+        }
+
+        function importarBackupJSON(event) {
+            const fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                try {
+                    traslados = JSON.parse(e.target.result);
+                    guardarDatos();
+                    renderizarHistorial();
+                    actualizarEstadisticas();
+                    mostrarToast("Base de datos restaurada", "success");
+                } catch (err) { alert("Error al procesar archivo."); }
+            };
+            fileReader.readAsText(event.target.files[0]);
+        }
+
+        function exportarCSV() {
+            if (traslados.length === 0) return;
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFFNum,Fecha,Paciente,Origen,Destino,Prioridad,Estado\n";
+            traslados.forEach(t => {
+                csvContent += `"${t.numTraslado}","${t.fechaHoraProgramada}","${t.pacienteNombre}","${t.origenLugar}","${t.destinoLugar}","${t.prioridad}","${t.estado}"\n`;
+            });
+            const link = document.createElement("a");
+            link.setAttribute("href", encodeURI(csvContent));
+            link.setAttribute("download", `CARE_Export_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            mostrarToast("CSV descargado", "success");
+        }
+
+        function mostrarToast(mensaje, tipo = 'info') {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-message').innerText = mensaje;
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            setTimeout(() => { toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none'); }, 3000);
+        }
+    </script>
 </body>
 </html>
