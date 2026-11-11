@@ -1,23 +1,28 @@
-
 const express = require('express');
 const path = require('path');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Middleware para parsear JSON
+// Middleware para parsear JSON y datos de formularios
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde la raíz del proyecto
-app.use(express.static(path.join(__dirname)));
+// Servir archivos estáticos explícitamente desde la raíz actual
+app.use(express.static(__dirname));
 
-// Ruta principal que sirve el archivo index.html
+// Ruta principal para servir index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    const filePath = path.join(__dirname, 'index.html');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error("Error al enviar index.html:", err);
+            res.status(404).send("Error 404: No se encontró el archivo index.html en el servidor.");
+        }
+    });
 });
 
-// Ruta API de verificación de estado del servicio
+// Ruta API de verificación de estado
 app.get('/api/health', (req, res) => {
     res.json({
         status: 'online',
@@ -28,5 +33,5 @@ app.get('/api/health', (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`[CARE] Servidor backend corriendo exitosamente en el puerto ${PORT}`);
+    console.log(`[CARE] Servidor corriendo en el puerto ${PORT}`);
 });
