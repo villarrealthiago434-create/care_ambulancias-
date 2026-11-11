@@ -8,20 +8,23 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde la raíz
+// Servir archivos estáticos desde la raíz y desde la carpeta public
 app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Ruta principal para servir index.html
+// Ruta principal para servir index.html (buscando en raíz o en public)
 app.get('/', (req, res) => {
-    const filePath = path.join(__dirname, 'index.html');
+    const filePathRoot = path.join(__dirname, 'index.html');
+    const filePathPublic = path.join(__dirname, 'public', 'index.html');
     
-    if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
+    if (fs.existsSync(filePathRoot)) {
+        res.sendFile(filePathRoot);
+    } else if (fs.existsSync(filePathPublic)) {
+        res.sendFile(filePathPublic);
     } else {
         fs.readdir(__dirname, (err, files) => {
             console.error(`[CARE ERROR] Archivos en __dirname (${__dirname}):`, files);
-            res.status(404).send(`Error 404: No se encontró el archivo index.html en el servidor. Archivos disponibles: ${files ? files.join(', ') : 'ninguno'}`);
+            res.status(404).send(`Error 404: No se encontró el archivo index.html ni en la raíz ni en la carpeta public. Archivos disponibles: ${files ? files.join(', ') : 'ninguno'}`);
         });
     }
 });
